@@ -1,0 +1,3 @@
+Unicode Point    Character in UTF-8 + length    Character normalized + legth
+---------------  -----------------------------  ------------------------------
+U+0130           ‎İ‎ ---> 1                     ‎i̇‎ ---> 2
