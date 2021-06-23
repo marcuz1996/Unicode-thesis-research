@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block head %}
+<title>Local Tasks</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">Local Tasks</h1>
+  <h4 style="text-align: center">Insert the name of task you wanna display!</h4>
+  <ul>
+    <li>taskPrivato1.txt</li>
+    <li>taskPrivato2.txt</li>
+    <li>taskPrivato3.txt</li>
+    <li>taskPrivato4.txt</li>
+    <li>taskPrivato5.txt</li>
+    <li>taskPrivato6.txt</li>
+    <li>taskPrivato7.txt</li>
+    <li>taskPrivato8.txt</li>
+  </ul>
+  <form method="POST" action="">
+    task <input type="text" name="task" />
+    <br />
+    <input type="submit" />
+  </form>
+  {% if task %}
+  <h4 style="text-align: center">Task content</h6>
+  <p>{{task}}</p>
+  {% else %}
+  <h4>No choosen task.</h4>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block head %}
+<title>Registration Moderator</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">Registration Moderator</h1>
+  <h4 style="text-align: center">Insert a Moderator name</h4>
+  <p style="text-align: center">
+    To register a new moderator please insert a name shorter than 5 character
+    because admin is the longest name and it is the only one who owns the full
+    control on the website!
+  </p>
+  <form method="POST" action="">
+    Moderator name <input type="text" name="name" />
+    <input type="submit" />
+  </form>
+  <br />
+  <br />
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Moderator</th>
+      <th>Admin</th>
+    </tr>
+    {% for mod in moderators %}
+    <tr>
+      <td>{{ mod[0] }}</td>
+      <td>{{ mod[1] }}</td>
+      <td>yes</td>
+      {% if mod[1]|length >= 5 %}
+      <td>yes</td>
+      {% else %}
+      <td>no</td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

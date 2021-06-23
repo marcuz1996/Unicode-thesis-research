@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% block head %}
+<title>Vulnerable Flask Web App</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">Encoding Vulnerability</h1>
+  <h4 style="text-align: center">Select vulnerability to test!</h4>
+  <br /><br />
+  <h5 style="text-align: center">Normalization</h5>
+  <ul>
+    <li><a style="text-align: center" href="/tasks">Stored XSS</a></li>
+    <li><a style="text-align: center" href="/register">SQL Injection</a></li>
+    <li>
+      <a style="text-align: center" href="/privatetask">Directory Traversal</a>
+    </li>
+  </ul>
+  <h5 style="text-align: center">Length</h5>
+  <ul>
+    <li>
+      <a style="text-align: center" href="/registerModerator"
+        >Length Comparison (on Python)</a
+      >
+    </li>
+    <li>
+      <a style="text-align: center" href="/registerModeratorMysql"
+        >Length Comparison (on MySQL)</a
+      >
+    </li>
+    <li>
+      <a style="text-align: center" href="/registerModeratorLower"
+        >Length Comparison + lower() (on Python)</a
+      >
+    </li>
+    <li>
+      <a style="text-align: center" href="/registerModeratorLowerMysql"
+        >Length Comparison + lower() (on MySQL)</a
+      >
+    </li>
+    <li>
+      <a style="text-align: center" href="/registerModeratorNormalization"
+        >Length Comparison + NFC Normalization</a
+      >
+    </li>
+  </ul>
+  <h5 style="text-align: center">Charset Transcoding</h5>
+  <ul>
+    <li>
+      <a style="text-align: center" href="/transcoding">
+        Firewall check in UTF-8, Server check in ASCII
+      </a>
+    </li>
+  </ul>
+  <h5 style="text-align: center">Right to left token</h5>
+  <ul>
+    <li>
+      <a style="text-align: center" href="/rtloverride">RTL Override</a>
+    </li>
+  </ul>
+  <br />
+  <br />
+  <br />
+  <ul>
+    <li>
+      <a style="text-align: center" href="/testingPage">testing Page</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block head %}
+<title>Registration Moderator</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">Registration Moderator</h1>
+  <h4 style="text-align: center">Insert a Moderator name</h4>
+  <p style="text-align: center">
+    To register a new moderator please insert a name longer than 5 character
+    because admin is the shortest name and it is the only one who owns the full
+    control on the website!
+  </p>
+  <form method="POST" action="">
+    Bytes <input type="text" name="name" />
+    <input type="submit" />
+  </form>
+  <form method="POST" action="">
+    Link for image <input type="text" name="link" />
+    <input type="submit" />
+  </form>
+  <br />
+  <br />
+  <table>
+    <tr>
+      <th>varbinary</th>
+      <th>varblob</th>
+    </tr>
+    {% for byte in bytez %}
+    <tr>
+      <td>{{ byte[0] }}</td>
+      <td>{{ byte[1] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <img src="{{link | safe}}" />
+</div>
+{% endblock %}

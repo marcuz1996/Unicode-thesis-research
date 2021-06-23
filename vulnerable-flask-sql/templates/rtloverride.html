@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block head %}
+<title>File Loader</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">File Loader</h1>
+  <h4 style="text-align: center">Load your image into the below form</h4>
+  <p style="text-align: center">
+    A moderator will check all the images and the three most beautifull will be
+    awarded
+  </p>
+  <br />
+  <br />
+  <form method="POST" enctype="multipart/form-data">
+    Image <input type="file" name="file" accept=".pdf" />
+    <input type="submit" />
+  </form>
+  {% endblock %}
+</div>

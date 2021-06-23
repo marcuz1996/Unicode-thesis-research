@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block head %}
+<title>Users</title>
+{% endblock %} {% block body %}
+<div class="content">
+  <h1 style="text-align: center">Users list</h1>
+  <table>
+    {% for user in userDetails %}
+    <tr>
+      <td>{{ user[0] }}</td>
+      <td>{{ user[1] }}</td>
+      <td><a href="/deleteuser/{{ user[2] }}">Remove</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  <br />
+  <a href="/testInjection">Try Injection</a>
+</div>
+{% endblock %}
