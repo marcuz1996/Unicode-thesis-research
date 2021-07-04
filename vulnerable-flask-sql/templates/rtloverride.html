@@ -14,5 +14,7 @@
     Image <input type="file" name="file" accept=".pdf" />
     <input type="submit" />
   </form>
-  {% endblock %}
+  {% for filename in filenames %}
+  <p>Your file: {{filename}} has been loaded correctly!!</p>
+  {% endfor %} {% endblock %}
 </div>

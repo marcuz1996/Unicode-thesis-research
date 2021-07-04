@@ -363,7 +363,8 @@ def rtloverride():
     file.save(os.path.join('static/uploads', file.filename))
     return render_template('/rtloverride.html')
   else:
-    return render_template('/rtloverride.html')
+    filename = ["file‮scorretto", "filecorretto"]
+    return render_template('/rtloverride.html', filenames = filename)
 
 
 ############### TEST PAGE ####################
