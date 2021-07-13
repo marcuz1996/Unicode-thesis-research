@@ -160,9 +160,8 @@ def main():
   while(True):
     print("Choose which analisys perform:\n[1] Normalization\n[2] Casing\n[3] Escaping\n[0] Quit\n")
     choose = input()
-    if choose == "0":
-      return
-    elif choose == "1":
+
+    if choose == "1":
       print("You want perform an analysis or an injection?\n[1] Scan for unicode normalization\n[2] Try xss injection\n")
       sub_choose = input()
       if sub_choose == "1":
@@ -172,14 +171,18 @@ def main():
         sub_choose = input()
         if sub_choose == "1" or sub_choose == "2" or sub_choose == "3":
           injectNormalizationPayload(sub_choose)
+        else:
+          print("invalid input")
       else:
-        print("invalid input")
+        print("invalid input") 
     elif choose == "2":
       casingCheck()
     elif choose == "3":
       escapingCheck()
     elif choose == "4":
       injectNormalizationPayload()
+    elif choose == "0":
+      return
     else:
       print("invalid input")
   
