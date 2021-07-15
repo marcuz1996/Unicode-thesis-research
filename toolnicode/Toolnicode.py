@@ -1,11 +1,16 @@
 import requests
+import argparse
 import secrets
 import string
 import re
 import time
 from colorama import Fore, Style, init
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 URL = 'http://localhost:5000/'
+NAME = 'content'
+PATH_CHROME = "Browser_Selenium/chromedriver.exe"
 TOKEN_LENGTH = 8
 S_POINTED = "\u1e69"
 FILEGATURE = "\ufb01"
@@ -48,13 +53,17 @@ def createPayload (char):
   token = ''.join(secrets.choice(alphabet) for i in range(TOKEN_LENGTH))
   payload = token + char + token
   parameters = {
-    'content' : payload
+    f'{NAME}' : payload
   }
   return token, parameters
 
 def injection(char):
   token, parameters = createPayload(char)
-  x = requests.post(URL, data = parameters)
+  try:
+    x = requests.post(URL, data = parameters)
+  except Exception as e:
+    print(e)
+    exit()
   char = re.search(token + ".*" + token, x.text, re.IGNORECASE)
   if char:
     char = char.group()[TOKEN_LENGTH:-TOKEN_LENGTH]
@@ -143,7 +152,7 @@ def injectNormalizationPayload(dimension):
   elif dimension == "3":
     file = "xss_payload_6606.txt"
   with open(f"static/payload/{file}", "r") as f:
-    lines = f.read().splitlines() 
+    lines = f.read().splitlines()
     for line in lines:
       payload_normalized = compatibilityParser(line)
       whitePrint("injecting -> " + payload_normalized)
@@ -152,15 +161,42 @@ def injectNormalizationPayload(dimension):
         redPrint("Payload injection work correctly, payload was not escaped")
       else:
         yellowPrint("Payload injection fail")
+    print("Do you want to check if payload injection actually open a popup screen in the page (avoid false positive) Y/n?")
+    choose = input()
+    if choose.lower() == "y":
+      options = webdriver.ChromeOptions()
+      options.add_argument('log-level=3')
+      options.add_argument('--headless')
+      driver = webdriver.Chrome(PATH_CHROME, chrome_options=options)
+      driver.implicitly_wait(10)
+      driver.get(URL)
+      try:
+        driver.switch_to.alert
+        redPrint("a popup in the website is found")
+      except:
+        greenPrint("No popup opened")
+      driver.quit()
+    else:
+      return
 
   
 def main():
   #for colored terminal
   init(convert=True)
+  parser = argparse.ArgumentParser()
+  required = parser.add_argument_group('required arguments')
+  required.add_argument("-u", "--url", help = "url to scan", required=True)
+  required.add_argument("-n", "--name", help = "name html attribute of input field to test", required=True)
+  args = parser.parse_args()
+  if args.url:
+    global URL
+    URL = args.url
+  if args.name:
+    global NAME
+    NAME = args.name
   while(True):
     print("Choose which analisys perform:\n[1] Normalization\n[2] Casing\n[3] Escaping\n[0] Quit\n")
     choose = input()
-
     if choose == "1":
       print("You want perform an analysis or an injection?\n[1] Scan for unicode normalization\n[2] Try xss injection\n")
       sub_choose = input()
