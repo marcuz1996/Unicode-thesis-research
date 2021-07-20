@@ -13,7 +13,8 @@ NAME = 'content'
 PATH_CHROME = "Browser_Selenium/chromedriver.exe"
 TOKEN_LENGTH = 8
 
-MULTIPLICATION_SIGN = '\u00d7'
+IDEOGRAPH_ONE = '\u4e00'
+LATIN_CAPITAL_LETTER_A_WITH_GRAVE = '\u00c0'
 REPLACEMENT_CHARACTER= '\ufffd'
 S_POINTED = "\u1e69"
 FILEGATURE = "\ufb01"
@@ -169,17 +170,26 @@ def charsetTranscodingCheck():
     greenPrint("UTF-8 encoding supported")
     return
   elif char == '' or '?' in char or REPLACEMENT_CHARACTER in char:
+    #controllare che non sia gbk
     redPrint("UTF-8 encoding NOT supported")
   else:
     yellowPrint("Something goes wrong!")
     return
-  char = injection(MULTIPLICATION_SIGN)
-  if char == MULTIPLICATION_SIGN: 
+  
+  char = injection(LATIN_CAPITAL_LETTER_A_WITH_GRAVE)
+  if char == LATIN_CAPITAL_LETTER_A_WITH_GRAVE: 
     greenPrint("Latin-1 encoding supported")
+    return
   else:
     redPrint("Latin-1 encoding NOT supported")
+  char = injection(IDEOGRAPH_ONE)
+  if char == IDEOGRAPH_ONE:
+    greenPrint('GBK encoding supported')
+  else:
+    redPrint("GBK encoding NOT supported")
     greenPrint("ASCII encoding supported")
-    return
+
+
   
 def injectNormalizationPayload(dimension):
   if dimension == "1":
