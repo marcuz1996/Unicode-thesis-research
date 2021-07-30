@@ -6,7 +6,6 @@ import re
 import time
 from colorama import Fore, Style, init
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 URL = 'http://localhost:5000/'
 NAME = 'content'
@@ -17,7 +16,7 @@ IDEOGRAPH_ONE = '\u4e00'
 LATIN_CAPITAL_LETTER_A_WITH_GRAVE = '\u00c0'
 REPLACEMENT_CHARACTER= '\ufffd'
 S_POINTED = "\u1e69"
-FILEGATURE = "\ufb01"
+FILIGATURE = "\ufb01"
 A_UPPER = "\u0041"
 A_LOWER = "\u0061"
 GREEK_QUESTION_MARK = "\u037e"
@@ -59,22 +58,21 @@ def createPayload (char):
   alphabet = string.ascii_letters
   token = ''.join(secrets.choice(alphabet) for i in range(TOKEN_LENGTH))
   payload = token + char + token
-  parameters = {
+  parameter = {
     f'{NAME}' : payload
   }
-  return token, parameters
+  return token, parameter
 
 def injection(char):
-  token, parameters = createPayload(char)
+  token, parameter = createPayload(char)
   try:
-    x = requests.post(URL, data = parameters)
+    x = requests.post(URL, data = parameter)
   except Exception as e:
     print(e)
     exit()
   char = re.search(token + ".*" + token, x.text, re.IGNORECASE)
   if char:
     char = char.group()[TOKEN_LENGTH:-TOKEN_LENGTH]
-    #print(hex(ord(char)))
     return char
   else:
     return ''
@@ -104,8 +102,8 @@ def normalizationCheck (ascii):
       greenPrint("There is NO normalization")
       return
     else:
+      yellowPrint("Trying with ASCII normalization")
       normalizationCheck(2)
-      #yellowPrint("something goes wrong")
       return
   if ascii == 2:
     char = injection(GREEK_QUESTION_MARK)
@@ -124,7 +122,7 @@ def normalizationCheck (ascii):
   else:
     form = 2    #composed
   #Equivalence
-  char = injection(FILEGATURE)
+  char = injection(FILIGATURE)
   if(len(char) == 2):
     if form == 1:
       redPrint("There is NFKD normlization")
@@ -170,12 +168,10 @@ def charsetTranscodingCheck():
     greenPrint("UTF-8 encoding supported")
     return
   elif char == '' or '?' in char or REPLACEMENT_CHARACTER in char:
-    #controllare che non sia gbk
     redPrint("UTF-8 encoding NOT supported")
   else:
     yellowPrint("Something goes wrong!")
     return
-  
   char = injection(LATIN_CAPITAL_LETTER_A_WITH_GRAVE)
   if char == LATIN_CAPITAL_LETTER_A_WITH_GRAVE: 
     greenPrint("Latin-1 encoding supported")
@@ -230,7 +226,6 @@ def injectNormalizationPayload(dimension):
 def main():
   #for colored terminal
   init(convert=True)
-  '''
   parser = argparse.ArgumentParser()
   required = parser.add_argument_group('required arguments')
   required.add_argument("-u", "--url", help = "url to scan", required=True)
@@ -242,9 +237,8 @@ def main():
   if args.name:
     global NAME
     NAME = args.name
-    '''
   while(True):
-    print("Choose which analisys perform:\n[1] Normalization\n[2] Casing\n[3] Escaping\n[4] Charset transcoding (valid only if there are no normalization)\n[0] Quit\n")
+    print("Choose which analisys perform:\n[1] Normalization\n[2] Casing\n[3] Escaping\n[4] Charset transcoding (valid only if there is no normalization)\n[0] Quit\n")
     choose = input()
     if choose == "1":
       print("You want perform an analysis or an injection?\n[1] Scan for unicode normalization\n[2] Try xss injection\n")
