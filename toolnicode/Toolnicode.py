@@ -160,7 +160,12 @@ def escapingCheck():
     if len(char) == 0:
       redPrint("Escaping!!! " + key + " (" + escaping_dict[key] + ")" + " has been escaped.")
     else:
-      greenPrint(key + " (" + escaping_dict[key] + ")" + " has not been escaped.")
+      if char != escaping_dict[key]:
+        redPrint("Escaping!!! " + key + " (" + escaping_dict[key] + ")" + " has been escaped.")
+      else:
+        greenPrint(key + " (" + escaping_dict[key] + ")" + " has not been escaped.")
+
+
 
 def charsetTranscodingCheck():
   char = injection(GREEK_NUMERAL_SIGN)
